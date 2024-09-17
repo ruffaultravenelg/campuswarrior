@@ -40,7 +40,7 @@ async function executeInstruction(instruction) {
             await executeFunction(instruction);
             break;
     
-        case 'loop':
+        case 'repeat':
             await executeLoop(instruction);
             break;
 
