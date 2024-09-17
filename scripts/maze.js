@@ -1,3 +1,8 @@
+/////////////////
+//// IMPORTS ////
+/////////////////
+import { delay } from "./util.js";
+
 ///////////////////////////////////
 //// MAZE DRAWING AND MOVEMENT ////
 ///////////////////////////////////
@@ -146,17 +151,4 @@ export async function down() {
  */
 export async function resetCharacterPosition() {
     await teleport(startPosition.x, startPosition.y);
-}
-
-/////////////////////////////////
-///// DELAY HELPER FUNCTION /////
-/////////////////////////////////
-
-/**
- * Creates a delay for the specified time.
- * @param {number} ms - The delay duration in milliseconds.
- * @returns {Promise} A promise that resolves after the delay.
- */
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }

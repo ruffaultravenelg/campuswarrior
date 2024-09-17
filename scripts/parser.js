@@ -3,7 +3,7 @@
  * @param {string} code - The input code to parse.
  * @returns {Array} Parsed lines with indentation, trimmed content, and line number.
  */
-function parseLines(code) {
+export function parseLines(code) {
     const lines = code.trim().split('\n');
     const result = [];
 
@@ -20,39 +20,43 @@ function parseLines(code) {
 
 /**
  * Converts code into an Abstract Syntax Tree (AST) based on indentation.
- * @param {string} code - The code to parse into an AST.
+ * @param {Array} lines - The lines objects to parse into an AST.
  * @returns {Array} The generated AST structure.
  */
-export function parseAST(code) {
-    const lines = parseLines(code);
+export function parseAST(lines) {
     const ast = [];
-    const stack = [{ indentation: 0, block: ast }]; // Initialize the stack with the root block (AST)
+    const stack = [{ indentation: -1, block: ast }]; // Initialize the stack with the root block (AST)
 
     lines.forEach(({ indentation, line, lineNumber }) => {
+        
+        // Pop nested blocks when indentation decreases
+        while (stack.length > 1 && indentation <= stack[stack.length - 1].indentation) {
+            stack.pop();
+        }
+
+        // Get current block
         const currentBlock = stack[stack.length - 1].block; // Get the current block from the stack
 
         // Handle `repeat` instruction
         if (line.startsWith('repeat')) {
             const repeatMatch = line.match(/^repeat (\d+):/);
             if (repeatMatch) {
+                console.log('a');
+                
                 const repeatCount = parseInt(repeatMatch[1], 10);
-                const repeatNode = { type: "repeat", times: repeatCount, body: [], lineNumber }; // Add line number to node
+                const repeatNode = { lineNumber, type: "repeat", times: repeatCount, body: [] }; // Add line number to node
                 currentBlock.push(repeatNode);
-                stack.push({ indentation, block: repeatNode.body }); // Push the body of the repeat onto the stack
+                stack.push({ indentation:indentation, block: repeatNode.body }); // Push the body of the repeat onto the stack
             }
         } else {
             // Handle function calls
             const funcMatch = line.match(/^(\w+)\(\)$/);
             if (funcMatch) {
                 const funcName = funcMatch[1];
-                currentBlock.push({ type: "function", name: funcName, lineNumber }); // Add line number to function node
+                currentBlock.push({ lineNumber, type: "function", name: funcName }); // Add line number to function node
             }
         }
 
-        // Adjust stack when dedenting (i.e., moving up in the hierarchy)
-        while (stack.length > 1 && stack[stack.length - 1].indentation > indentation) {
-            stack.pop(); // Pop nested blocks when indentation decreases
-        }
     });
 
     return ast;

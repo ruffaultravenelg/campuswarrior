@@ -17,14 +17,19 @@
 
     <!-- Code Editor Section -->
     <div id="code-editor">
-        <textarea id="code-input" placeholder="left()
+        <div id="code-editor-edit">
+            <textarea id="code-input" placeholder="left()
 right()
 repeat 3:
     left()
-    right()">repeat 2:
-    left()</textarea>
-        <div id="run-button">
-            Run
+    right()"></textarea>
+            <button id="run-button" class="code-editor-btn">Lancer</button>
+        </div>
+        <div id="code-editor-debug" hidden>
+            <div id="code-editor-debug-instructions">
+                <p>Hello</p>
+            </div>
+            <button id="stop-button" class="code-editor-btn">Stop</button>
         </div>
     </div>
 

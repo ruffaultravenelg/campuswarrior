@@ -1,11 +1,28 @@
-// Imports for movement functions
+/////////////////
+//// IMPORTS ////
+/////////////////
 import { right, left, up, down } from "./maze.js";
+import { debuggerJump } from "./debugger.js";
+import { delay } from "./util.js";
+
+//////////////
+//// STOP ////
+//////////////
+var stop = true;
+
+/**
+ * Stop the currently running code.
+ */
+export function stopExecution(){
+    stop = true;
+}
 
 /**
  * Main function to execute the provided code.
  * @param {Array} code - Array of parsed instructions (AST).
  */
 export async function execute(code) {
+    stop = false;
     await executeScope(code);
 }
 
@@ -24,12 +41,21 @@ async function executeScope(instructions) {
  * @param {Object} instruction - The instruction object containing type and details.
  */
 async function executeInstruction(instruction) {
+
+    //Stop execution
+    if (stop) return;
+
+    // Debugger preview
+    debuggerJump(instruction.lineNumber);
+
+    // Execute instruction
     switch (instruction.type) {
         case 'function':
             await executeFunction(instruction);
             break;
     
         case 'repeat':
+            await delay(200);
             await executeRepeat(instruction);
             break;
 

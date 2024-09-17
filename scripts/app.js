@@ -2,8 +2,9 @@
 //// IMPORTS ////
 /////////////////
 import { drawMaze, resetCharacterPosition } from "./maze.js";
-import { parseAST } from "./parser.js";
-import { execute } from "./interpreter.js";
+import { parseLines, parseAST } from "./parser.js";
+import { execute, stopExecution } from "./interpreter.js";
+import { initDebugger } from "./debugger.js";
 
 /////////////////////////////////////
 //// MODIFY BEHAVIOR OF TEXTAREA ////
@@ -70,27 +71,54 @@ drawMaze(mazeContainer, defaultMazeString);
 //////////////////////
 //// EXECUTE CODE ////
 //////////////////////
+const code_editor_edit = document.getElementById('code-editor-edit');
+const code_editor_debug = document.getElementById('code-editor-debug');
+const code_editor_debug_instructions = document.getElementById('code-editor-debug-instructions');
+const run_button = document.getElementById('run-button');
+const stop_button = document.getElementById('stop-button');
 
 /**
  * Adds functionality to the "Run" button to execute the code input.
  */
-document.getElementById('run-button').addEventListener('click', async () => {
+run_button.addEventListener('click', async () => {
 
-    // Disable the code input textarea during execution
-    codeInput.disabled = true;
-
-    // Reset the character to the start position
-    await resetCharacterPosition();
+    // Change visibility
+    code_editor_edit.hidden = true;
+    code_editor_debug.hidden = false;
 
     // Get the code input from the textarea
     const code = codeInput.value;
 
+    // Parse the lines
+    const lines = parseLines(code);
+
     // Parse the input code into an Abstract Syntax Tree (AST)
-    const ast = parseAST(code);
+    const ast = parseAST(lines);
+
+    // Create Debugger
+    initDebugger(lines);
+
+    // Reset the character to the start position
+    await resetCharacterPosition();
 
     // Execute the parsed AST
     await execute(ast);
 
-    // Re-enable the code input after execution
-    codeInput.disabled = false;
+    //Stop
+    stop_button.click();
+    
+});
+
+/**
+ * Adds functionality to the "Stop" button to stop.
+ */
+stop_button.addEventListener('click', async () => {
+
+    // Stop execution
+    stopExecution();
+
+    // Change visibility
+    code_editor_edit.hidden = false;
+    code_editor_debug.hidden = true;
+
 });

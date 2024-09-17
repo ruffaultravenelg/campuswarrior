@@ -35,24 +35,44 @@ body {
     background-color: whitesmoke;
     overflow: hidden;
 }
+#code-editor > div{
+    width: 100%;
+    height: 100%;
+}
+#code-editor > div > *:nth-child(1){
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: calc(100% - var(--editor-toolbar-height));
+    padding: 30px;
+}
 
-/* Textarea for Code Input */
-#code-input {
+/* Codes */
+#code-input, #code-editor > div > div > p {
     background-color: transparent;
     border: none;
     outline: none;
     font-size: 22px;
-    width: 100%;
-    height: calc(100% - var(--editor-toolbar-height));
     color: black;
     font-family: "JetBrains Mono", monospace;
     tab-size: 40px;
     resize: none;
-    padding: 30px;
+}
+#code-editor > div > div > p{
+    display: inline-block;
+    width: 100%;
+    border-radius: 5px;
+    transition-duration: 0.2s;
+}
+.highlighted{
+    background-color: #dec7d4 !important;
+    transform: scale(1.02);
 }
 
 /* Run Button Styling */
-#run-button {
+.code-editor-btn {
     width: 100%;
     height: var(--editor-toolbar-height);
     background-color: #E5007D;
@@ -66,13 +86,15 @@ body {
     transition-duration: 0.2s;
     cursor: pointer;
     font-weight: bold;
+    border: 0;
+    outline: none;
 }
 
-#run-button:hover {
+.code-editor-btn:hover {
     background-color: #be096c;
 }
 
-#run-button:active {
+.code-editor-btn:active {
     background-color: #8f0953;
 }
 
