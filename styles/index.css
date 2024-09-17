@@ -1,0 +1,87 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* CSS Variables */
+:root {
+    --editor-width: 450px;
+    --editor-toolbar-height: 60px;
+}
+
+/* Body Styling */
+body {
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    padding: 20px;
+    gap: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Code Editor Container */
+#code-editor {
+    width: var(--editor-width);
+    height: 100%;
+    border-radius: 15px;
+    background-color: whitesmoke;
+    overflow: hidden;
+}
+
+/* Textarea for Code Input */
+#code-input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 22px;
+    width: 100%;
+    height: calc(100% - var(--editor-toolbar-height));
+    color: black;
+    font-family: "JetBrains Mono", monospace;
+    tab-size: 40px;
+    padding: 30px;
+}
+
+/* Run Button Styling */
+#run-button {
+    width: 100%;
+    height: var(--editor-toolbar-height);
+    background-color: #E5007D;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    user-select: none;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#run-button:hover {
+    background-color: #be096c;
+}
+
+#run-button:active {
+    background-color: #8f0953;
+}
+
+/* Maze Preview Container */
+#maze-preview {
+    width: calc(100% - var(--editor-width));
+    height: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F5F5F5;
+    border-radius: 15px;
+}

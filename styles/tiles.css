@@ -1,0 +1,54 @@
+#maze-container {
+    position: relative;
+    width: 400px; /* Ajustez la taille en fonction de la grille */
+    height: 400px;
+    background-color: #eee;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(8, 1fr); /* Nombre de colonnes */
+    grid-template-rows: repeat(8, 1fr); /* Nombre de lignes */
+    overflow: hidden; /* Éviter les débordements */
+}
+
+.cell {
+    width: 100%; /* S'adapte à la taille de la cellule */
+    height: 100%;
+    transition: all 0.3s ease;
+    animation: ease cell-show 1.5s forwards;
+    border-radius: 5px;
+}
+
+@keyframes cell-show {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+.wall {
+    background-color: #333; /* Couleur des murs */
+}
+
+.path {
+    background-color: #ffffff; /* Couleur des chemins */
+}
+
+.start {
+    background-color: #c2d7c8;
+}
+
+.end {
+    background-color: #c9bce0;
+}
+
+#character {
+    position: absolute;
+    width: 50px; /* Taille du personnage, à ajuster */
+    height: 50px;
+    background-image: url('../ressources/iut.png'); /* Remplacez par le chemin de votre image */
+    background-size: cover;
+    transition: left 0.3s ease, top 0.3s ease;
+    z-index: 10; /* Au-dessus des cellules */
+}
