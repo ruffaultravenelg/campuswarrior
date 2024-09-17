@@ -47,6 +47,7 @@ body {
     color: black;
     font-family: "JetBrains Mono", monospace;
     tab-size: 40px;
+    resize: none;
     padding: 30px;
 }
 

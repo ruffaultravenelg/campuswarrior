@@ -1,11 +1,6 @@
-/////////////////
-// IMPORTS    //
-/////////////////
+// Imports for movement functions
 import { right, left, up, down } from "./maze.js";
 
-/////////////////
-// EXECUTE    //
-/////////////////
 /**
  * Main function to execute the provided code.
  * @param {Array} code - Array of parsed instructions (AST).
@@ -14,9 +9,6 @@ export async function execute(code) {
     await executeScope(code);
 }
 
-///////////////////////
-// EXECUTE SCOPE    //
-///////////////////////
 /**
  * Executes a list of instructions within the current scope.
  * @param {Array} instructions - Array of instructions to execute.
@@ -27,9 +19,6 @@ async function executeScope(instructions) {
     }
 }
 
-/////////////////////////////
-// EXECUTE INSTRUCTION    //
-/////////////////////////////
 /**
  * Executes a single instruction based on its type.
  * @param {Object} instruction - The instruction object containing type and details.
@@ -41,7 +30,7 @@ async function executeInstruction(instruction) {
             break;
     
         case 'repeat':
-            await executeLoop(instruction);
+            await executeRepeat(instruction);
             break;
 
         default:
@@ -49,9 +38,6 @@ async function executeInstruction(instruction) {
     }
 }
 
-//////////////////////////
-// EXECUTE FUNCTION    //
-//////////////////////////
 /**
  * Executes a movement function based on the instruction name.
  * @param {Object} instruction - The function instruction object.
@@ -75,14 +61,11 @@ async function executeFunction(instruction) {
     }
 }
 
-//////////////////////
-// EXECUTE LOOP    //
-//////////////////////
 /**
- * Executes a loop instruction a specified number of times.
+ * Executes a repeat block.
  * @param {Object} instruction - The loop instruction object.
  */
-async function executeLoop(instruction) {
+async function executeRepeat(instruction) {
     for (let i = 0; i < instruction.times; i++) {
         await executeScope(instruction.body);
     }
