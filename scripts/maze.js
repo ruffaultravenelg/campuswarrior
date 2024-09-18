@@ -12,10 +12,11 @@ let startPosition;
 let endPosition;
 let characterPosition;
 let maze_container;
+const bumpForce = 8;
 
 // Create the character element
 const character = document.createElement('div');
-character.id = 'character';
+character.className = 'character';
 
 /**
  * Draws the maze inside the provided container and initializes the character's position.
@@ -25,6 +26,9 @@ character.id = 'character';
 export function drawMaze(container, maze) {
     // Set the container reference
     maze_container = container;
+
+    // Set default start position
+    startPosition = { x: 1, y: 1 };
 
     // Clean the container before rendering
     container.innerHTML = '';
@@ -67,7 +71,7 @@ export function drawMaze(container, maze) {
     });
 
     // Set the character's initial position, default to (1, 1) if no start position
-    characterPosition = startPosition || { x: 1, y: 1 };
+    characterPosition = startPosition;
 
     // Add the character to the maze and update its position
     container.appendChild(character);
@@ -83,13 +87,33 @@ export function drawMaze(container, maze) {
  * @param {HTMLElement} container - The container holding the maze.
  */
 async function updateCharacterPosition(container) {
+    
+    // Get cells size
     const cellWidth = container.offsetWidth / mazeRows[0].length;
     const cellHeight = container.offsetHeight / mazeRows.length;
 
+    // Update position
     character.style.left = `${characterPosition.x * cellWidth}px`;
     character.style.top = `${characterPosition.y * cellHeight}px`;
 
+    // Update character size
+    character.style.width = `${cellWidth}px`;
+    character.style.height = `${cellHeight}px`;
+
+    // Wait for animation
     await delay(500);
+}
+
+/**
+ * Animate the character to a specific (x, y) offset, used for bumping into walls.
+ * @param {number} x - The x offset to move to.
+ * @param {number} y - The y offset to move to.
+ */
+export async function bump(x, y) {
+    character.style.transform = `translate(${x}px, ${y}px)`; 
+    await delay(250)
+    character.style.transform = '';
+    await delay(250)
 }
 
 /**
@@ -109,6 +133,8 @@ export async function left() {
     if (mazeRows[characterPosition.y][characterPosition.x - 1] !== 'x') {
         characterPosition.x -= 1;
         await updateCharacterPosition(maze_container);
+    } else {
+        await bump(-bumpForce, 0);
     }
 }
 
@@ -119,6 +145,8 @@ export async function right() {
     if (mazeRows[characterPosition.y][characterPosition.x + 1] !== 'x') {
         characterPosition.x += 1;
         await updateCharacterPosition(maze_container);
+    } else {
+        await bump(bumpForce, 0);
     }
 }
 
@@ -129,6 +157,8 @@ export async function up() {
     if (mazeRows[characterPosition.y - 1][characterPosition.x] !== 'x') {
         characterPosition.y -= 1;
         await updateCharacterPosition(maze_container);
+    } else {
+        await bump(0, -bumpForce);
     }
 }
 
@@ -139,6 +169,8 @@ export async function down() {
     if (mazeRows[characterPosition.y + 1][characterPosition.x] !== 'x') {
         characterPosition.y += 1;
         await updateCharacterPosition(maze_container);
+    } else {
+        await bump(0, bumpForce);
     }
 }
 

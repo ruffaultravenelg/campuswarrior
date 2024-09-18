@@ -53,14 +53,16 @@ codeInput.addEventListener('keydown', function(e) {
 
 const mazeContainer = document.getElementById('maze-container');
 const defaultMazeString = `
-xxxxxxxx
-x   Dx A
-x  xxx x
-x  x   x
-x  x  xx
-x  x  xx
-x     xx
-xxxxxxxx
+xxxxxxxxxx
+x       Dx
+x xxxxxxxx
+x  xxxxxxx
+xx  xxxxxx
+xxx   xxxx
+xxxxx  xxx
+xxxxxx  xx
+xxxxxxx  A
+xxxxxxxxxx
 `;
 
 /**
