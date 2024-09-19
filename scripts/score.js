@@ -2,7 +2,7 @@
 //// IMPORT ////
 ////////////////
 import { parseLines } from "./parser.js";
-import { getMazePathLength } from "./maze.js";
+//import { getMazePathLength } from "./maze.js";
 
 /**
  * Calculate the score made by a code
@@ -11,13 +11,15 @@ import { getMazePathLength } from "./maze.js";
 function calculateScore(code){
 
     // Parse lines
-    const lines = parseLines(code);
+    const linesCount = parseLines(code).length;
 
     // Max score
-    const maxScore = getMazePathLength();
+    //const maxScore = getMazePathLength();
 
     // Calculate score
-    return Math.max(maxScore - lines.length , 0);
+    if (linesCount <= 8) return 10;
+    if (linesCount > 8 && linesCount <= 11) return 5;
+    return 0;
 
 }
 
