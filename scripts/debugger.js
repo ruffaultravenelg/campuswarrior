@@ -35,7 +35,7 @@ export function debuggerJump(lineNumber){
     for (let i = 0; i < lines_nodes.length; i++) {
         const node = lines_nodes[i];
         
-        if (i === lineNumber - 1)
+        if (i === lineNumber)
             node.className = highlightedClassName;
         else
             node.className = '';

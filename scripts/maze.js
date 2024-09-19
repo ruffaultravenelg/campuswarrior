@@ -6,6 +6,7 @@ import { delay } from "./util.js";
 ///////////////////////////////////
 //// MAZE DRAWING AND MOVEMENT ////
 ///////////////////////////////////
+const stop_button = document.getElementById('stop-button');
 
 let mazeRows;
 let startPosition;
@@ -13,10 +14,19 @@ let endPosition;
 let characterPosition;
 let maze_container;
 const bumpForce = 8;
+let maze_path_len = 0;
 
 // Create the character element
 const character = document.createElement('div');
 character.className = 'character';
+
+/**
+ * Returns the number of "path" cases in the maze.
+ * @returns {integer} - The length of the path.
+ */
+export function getMazePathLength(){
+    return maze_path_len;
+}
 
 /**
  * Draws the maze inside the provided container and initializes the character's position.
@@ -26,6 +36,9 @@ character.className = 'character';
 export function drawMaze(container, maze) {
     // Set the container reference
     maze_container = container;
+
+    // Set default length
+    maze_path_len = 0;
 
     // Set default start position
     startPosition = { x: 1, y: 1 };
@@ -62,6 +75,7 @@ export function drawMaze(container, maze) {
                     break;
                 default:
                     cell.classList.add('path');
+                    maze_path_len++;
                     break;
             }
 
@@ -110,10 +124,14 @@ async function updateCharacterPosition(container) {
  * @param {number} y - The y offset to move to.
  */
 export async function bump(x, y) {
+    // Animation
     character.style.transform = `translate(${x}px, ${y}px)`; 
-    await delay(250)
+    await delay(250);
     character.style.transform = '';
-    await delay(250)
+    await delay(250);
+
+    // Quit interpreter
+    stop_button.click();
 }
 
 /**

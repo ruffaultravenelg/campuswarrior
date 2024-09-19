@@ -5,17 +5,21 @@ import { drawMaze, resetCharacterPosition } from "./maze.js";
 import { parseLines, parseAST } from "./parser.js";
 import { execute, stopExecution } from "./interpreter.js";
 import { initDebugger } from "./debugger.js";
+import { calculateTimeWon } from "./score.js";
 
 /////////////////////////////////////
 //// MODIFY BEHAVIOR OF TEXTAREA ////
 /////////////////////////////////////
-
+const goal = document.getElementById('goal');
+const points = document.getElementById('points');
 const codeInput = document.getElementById('code-input');
 
 /**
  * Enhances the behavior of the textarea to support tabs and auto-indentation.
  */
 codeInput.addEventListener('keydown', function(e) {
+
+    // Specials inputs
     if (e.key === 'Tab') {
         e.preventDefault();
         const start = this.selectionStart;
@@ -45,6 +49,10 @@ codeInput.addEventListener('keydown', function(e) {
         // Move the cursor to the correct position after the new line and indentation
         this.selectionStart = this.selectionEnd = start + 1 + indentation.length;
     }
+
+    // Calculate score
+    points.textContent = `Temps gagnez : ${calculateTimeWon(codeInput.value)} secondes`;
+
 });
 
 ///////////////////
@@ -69,6 +77,7 @@ xxxxxxxxxx
  * Draw the default maze in the maze container.
  */
 drawMaze(mazeContainer, defaultMazeString);
+points.textContent = `Temps gagnez : ${calculateTimeWon(codeInput.value)} secondes`;
 
 //////////////////////
 //// EXECUTE CODE ////

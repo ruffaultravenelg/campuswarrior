@@ -6,13 +6,15 @@
 export function parseLines(code) {
     const lines = code.trim().split('\n');
     const result = [];
+    let index = -1;
 
-    lines.forEach((line, index) => {
+    lines.forEach((line) => {
         const trimmedLine = line.trim();
         if (trimmedLine === "") return; // Skip empty lines
+        index++;
 
         const indentation = line.match(/^\t*/)[0].length; // Use tabs to calculate indentation
-        result.push({ indentation, line: trimmedLine, lineNumber: index + 1 }); // Add line number
+        result.push({ indentation, line: trimmedLine, lineNumber: index }); // Add line number
     });
 
     return result;
